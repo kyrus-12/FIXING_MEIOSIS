@@ -1721,8 +1721,8 @@
                 const a = 'hsl(' + h + ' 80% '+L0+ '%)', b = 'hsl(' + h + ' 80% '+(L0+10)+ '%)', x = 'hsl(' + h + ' 85% '+((k & 1) ? 72 : 34) + '%)';
                 const p = (d, c, w, x) => '<path ' + (x || '') + ' d="' + d + '" stroke="' + c + '" stroke-width="' + w + '" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
                 const dot = (x, y) => '<circle class="cm" cx="' + x + '" cy="' + y + '" r="4.5" fill="#fde86a" stroke="#92400e" stroke-width="1.5"/>';
-                const X = p('M12 12L28 48', a, 8) + p('M20 30L28 48', x, 8) + p('M28 12L12 48', b, 8) + p('M20 30L12 48', x, 8) + dot(20, 30);
-                const coil = p('M11 6Q19 30 29 54', a, 6) + p('M19.5 30Q24 42 29 54', x, 6) + p('M29 6Q21 30 11 54', b, 6);
+                const X = p('M12 12L28 48', a, 8) + p('M20 30L24 39', x, 8) + p('M28 12L12 48', b, 8) + p('M20 30L16 39', x, 8) + dot(20, 30);
+                const coil = p('M11 6Q19 30 29 54', a, 6) + p('M19.5 30Q21.75 36 24.125 42', x, 6) + p('M29 6Q21 30 11 54', b, 6);
                 return [
                     (() => {
                         const sh = shapes[k] || (shapes[k] = initShape(k + 1)), dk = 'hsl(' + h + ' 70% 38%)';
@@ -1732,10 +1732,10 @@
                         }).join('');
                         return p(smoothD(sh.a), a, 2.4, 'data-st="a"') + p(smoothD(sh.b), b, 2.4, 'class="rep"  pathLength="100" data-st="b"') + hs('b', b) + hs('a', a);
                     })(),
-                    coil + p('M18.7 34.8Q15 44.4 11 54', x, 6, 'class="xo"') + dot(20, 30), X, X, X,
-                    coil + p('M18.7 34.8Q15 44.4 11 54', x, 6) + dot(20, 30), X,
-                    sd ? p('M10 10L28 30L10 50', b, 7) + p('M28 30L10 50', x, 7) + dot(28, 30) : p('M30, 10L12, 30L30, 50', a, 7) + p('M12, 30L30, 50', x, 7) + dot(12, 30),
-                    sd ? p('M20 4C30 14 10 20 20 30S30 46 20 56', b, 4) + p('M20 30C30 40 30 46 20 56', x, 4) + dot(20, 30) : p('M20 4C10 14 30 20 20 30S10 46 20 56', a, 4) + p('M20 30C10 40 10 46 20 56', x, 4) + dot(20, 30)
+                    coil + p('M18.7 34.8Q16.85 39.6 14.925 44.4', x, 6, 'class="xo"') + dot(20, 30), X, X, X,
+                    coil + p('M18.7 34.8Q16 39.6 14.925 44.4', x, 6) + dot(20, 30), X,
+                    sd ? p('M10 10L28 30L10 50', b, 7) + p('M28 30L19 40', x, 7) + dot(28, 30) : p('M30, 10L12, 30L30, 50', a, 7) + p('M12, 30L21, 40', x, 7) + dot(12, 30),
+                    sd ? p('M20 4C30 14 10 20 20 30S30 46 20 56', b, 4) + p('M20 30C30 35 27.5 39 27.5 43', x, 4) + dot(20, 30) : p('M20 4C10 14 30 20 20 30S10 46 20 56', a, 4) + p('M20 30C15 25 12.5 39 12.5 43', x, 4) + dot(20, 30)                 
                 ][ph];
             }
 
