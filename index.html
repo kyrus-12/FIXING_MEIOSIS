@@ -1589,8 +1589,8 @@
                     ct0 = performance.now();
                     requestAnimationFrame(cleaveLoop);
                 }
-                const tt = ((performance.now() - ct0) / 7000) % 1;
-                const q = 0.25 + 0.3 * seg(tt, 0.1, 0.9), m = 0;
+                const tt = Math.min(1, (performance.now() - ct0) / 5000), ana = phase === 3 || phase === 7;
+                const q = ana ? 0.25 * seg(tt, 0.05, 0.6) : 0.25 + 0.25 * seg(tt, 0.05, 0.6), m = 0;
                 const ax = 'x', st = 'style="fill:var(--cell); stroke:var(--cellline); stroke-width:4; stroke-linejoin:round;"';
                 let h = '';
                 const vw = view();
