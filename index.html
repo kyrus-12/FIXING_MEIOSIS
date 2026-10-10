@@ -1216,7 +1216,7 @@
                     for(let p = 0; p < P; p++){
                         const a  = S.ch[2*p][0], b = S.ch[2 * p + 1] && S.ch[2 * p + 1][0];
                         if(!b) continue;
-                        const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, r = Math.max(3, 0.04 * u * scl());
+                        const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, r = Math.max(1.5, 0.02 * u * scl());
                         ctx.beginPath();
                         ctx.moveTo(mx - r, my - r);
                         ctx.lineTo(mx + r, my + r);
