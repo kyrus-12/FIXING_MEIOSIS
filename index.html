@@ -930,7 +930,7 @@
                     }   
                 } else if(ph < 8){
                     const nu = [1, 0.3, 0, 0][ph - 4], rc = b2; 
-                    const A = ph == 4 ? [cx - dy, cy, rc, rc, 1, nu]: [cx, cy - dy, rc, rc, 1, nu], B = ph == 4 ? [cx + dy, cy, rc, rc, 1, nu] : [cx, cy + dy, rc, rc, 1, nu];
+                    const A = ph == 4 ? [cx - dy, cy, 0.68 * u, rc, 1, nu]: [cx, cy - dy, rc, rc, 1, nu], B = ph == 4 ? [cx + dy, cy, 0.68 * u, rc, 1, nu] : [cx, cy + dy, rc, rc, 1, nu];                
                     if(ph < 7){
                         c = [A, B, z(A), z(B)];
                     } else {
@@ -938,7 +938,7 @@
                         c = [[cx - xo, cy - dy, rc, rc, 1, 0], [cx - xo, cy + dy, rc, rc, 1, 0], [cx + xo, cy - dy, rc, rc, 1, 0], [cx + xo, cy + dy, rc, rc, 1, 0]];
                     }
                 } else {
-                    const a = 0.5 * u, x = 0.6 * u; c = [[cx - x, cy - dy, a, b2, 1, 1], [cx - x, cy + dy, a, b2, 1, 1], [cx + x, cy - dy, a, b2, 1,1], [cx + x, cy + dy, a, b2, 1, 1]]
+                    const a = 0.68 * u, x = 0.6 * u; c = [[cx - x, cy - dy, a, b2, 1, 1], [cx - x, cy + dy, a, b2, 1, 1], [cx + x, cy - dy, a, b2, 1,1], [cx + x, cy + dy, a, b2, 1, 1]]
                 }
 
                 const ps = a => [[cx - a, cy, 1], [cx + a, cy, 1], [cx - a, cy, 0], [cx  + a, cy, 0]];
