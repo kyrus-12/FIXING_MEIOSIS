@@ -1528,11 +1528,11 @@
                 else fl = false;
             }
 
-            let cl = false, ct0 = 0;
+            let cl = false, ct0 = 0, cph = -1;
             const clamp01 = x => Math.max(0, Math.min(1, x)), ease = x => x * x * (3 - 2 * x), seg = (a, b, c) => ease(clamp01((a - b) / (c - b)));
 
             function cleaveOn(){
-                return build && bp && (phase === 4 || phase === 8) && cnt('cell') > 0;
+                return build && bp && (phase === 3 || phase === 4 || phase === 7 || phase === 8) && cnt('cell') > 0;
             }
 
             function cleaveLoop(){
@@ -1540,7 +1540,7 @@
                     drawCleave();
                     requestAnimationFrame(cleaveLoop);
                 } else {
-                    cl = false;
+                    cl = false, cph = -1;
                     $('#cleave').innerHTML = '';
                 }
             }
@@ -1584,10 +1584,11 @@
                     c.innerHTML = '';
                     return;
                 }
-                if(!cl){
+                if(!cl || cph !== phase){
+                    if(!cl) requestAnimationFrame(cleaveLoop);
                     cl = true;
+                    cph = phase;
                     ct0 = performance.now();
-                    requestAnimationFrame(cleaveLoop);
                 }
                 const tt = Math.min(1, (performance.now() - ct0) / 5000), ana = phase === 3 || phase === 7;
                 const q = ana ? 0.25 * seg(tt, 0.05, 0.6) : 0.25 + 0.25 * seg(tt, 0.05, 0.6), m = 0;
