@@ -546,19 +546,9 @@
         @keyframes glow{
             from{ box-shadow:0 0 4px #fbbf24;} to {box-shadow:0 0 16px 4px #fbbf24}
         }
-        .board.playing .el.nuc::after{
-            content:'';
-            position:absolute;
-            inset:-4px;
-            border:2px dashed var(--nuc);
-            border-radius:50%;
-            animation:ring 1.8s ease-out infinite;
-        }
-        @keyframes ring{
-            from{transform:scale(1); opacity:0.8} to {transform:scale(1.25); opacity:0}
-        }
-        .board.playing.p1 .el.nuc{
-            animation:dissolve 2.4s ease-in-out infinite alternate;
+        .board.playing.p1 .el.nuc,
+        .board.playing.p5 .el.nuc{
+            opacity:0.15;
         }
         .board.playing.p4 .el.nuc,
         .board.playing.p8 .el.nuc{
@@ -944,12 +934,12 @@
                 let c;
                 if(ph < 4){
                     if(ph < 3){
-                        const s = [[cx, cy, u, u, 1, 1], [cx, cy, u, u, 1, 0.3], [cx, cy, u, u, 1, 0]][ph]; c = [s, z(s), z(s), z(s)]    
+                        const s = [[cx, cy, u, u, 1, 1], [cx, cy, u, u, 1, 0.15], [cx, cy, u, u, 1, 0]][ph]; c = [s, z(s), z(s), z(s)]    
                     } else {
                         const A = [cx - 0.42 * u, cy, 0.7 * u, u, 1, 0], B = [cx + 0.42 * u, cy, 0.7 * u, u, 1, 0]; c = [A, B, z(A), z(B)]
                     }   
                 } else if(ph < 8){
-                    const nu = [1, 0.3, 0, 0][ph - 4], rc = b2; 
+                    const nu = [1, 0.15, 0, 0][ph - 4], rc = b2; 
                     const A = ph == 4 ? [cx - dy, cy, 0.68 * u, rc, 1, nu]: [cx, cy - dy, rc, rc, 1, nu], B = ph == 4 ? [cx + dy, cy, 0.68 * u, rc, 1, nu] : [cx, cy + dy, rc, rc, 1, nu];                
                     if(ph < 7){
                         c = [A, B, z(A), z(B)];
@@ -1005,7 +995,7 @@
                     ch.push(m);
                     spa.push(ph == 1 || ph == 2 || ph == 3 ? [j, j] : ph == 5 || ph == 6 || ph == 7 ? [j, j + 2] : [-1, -1]);
                 }
-                return{c, pl, sp : spa, spin : (ph == 2 || ph == 3 || ph == 6 || ph == 7) ? 1 : (ph == 1 || ph == 5) ? 0.7 : 0, chi : 0, ch};
+                return{c, pl, sp : spa, spin : (ph == 2 || ph == 3 || ph == 6 || ph == 7) ? 1 : 0, chi : 0, ch};
             }
             const CK = ['x', 'y', 'tx', 'bx', 'L', 'w', 'wave', 'ang'];
             
