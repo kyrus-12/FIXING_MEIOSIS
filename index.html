@@ -1600,7 +1600,7 @@
                     cph = phase;
                     ct0 = performance.now();
                 }
-                const tt = Math.min(1, (performance.now() - ct0) / 5000), ana = phase === 3 || phase === 7;
+                const tt = (bp && (phase === 7 || phase === 8)) ? (x => x < 1 ? x : 2 - x)(((performance.now() - ct0) / 2400) % 2) : 1, ana = phase === 3 || phase === 7;
                 const q = ana ? 0.25 * seg(tt, 0.05, 0.6) : 0.25 + 0.25 * seg(tt, 0.05, 0.6), m = 0;
                 const ax = 'x', st = 'style="fill:var(--cell); stroke:var(--cellline); stroke-width:4; stroke-linejoin:round;"';
                 let h = '';
