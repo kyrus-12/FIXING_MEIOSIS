@@ -1204,11 +1204,20 @@
                     ctx.save();
                     ctx.globalAlpha = al;
                     ctx.beginPath();
-                    ctx.arc(x, y, 0.05 * u * pu, 0, 7);
+                    ctx.arc(x, y, 0.05 * u, 0, 7);
                     ctx.fillStyle = '#fbbf24';
                     ctx.shadowColor = '#fbbf24';
                     ctx.shadowBlur = 12;
                     ctx.fill();
+                    const r = 0.05 * u;
+                    ctx.shadowBlur = 0;
+                    ctx.strokeStyle = '#b45309';
+                    ctx.lineCap = 'round';
+                    ctx.lineWidth = Math.max(1.2, r * 0.3);
+                    ctx.beginPath();
+                    ctx.moveTo(x - r * 0.5, y + r * 0.3); ctx.lineTo(x - r * 0.1, y + r * 0.3);
+                    ctx.moveTo(x + r * 0.32, y - r * 0.5); ctx.lineTo(x + r * 0.32, y - r * 0.1);
+                    ctx.stroke();
                     ctx.restore();
                 });
 
