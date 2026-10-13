@@ -683,6 +683,30 @@
             font-weight:600;
             line-height:1.3;
         }
+        #retry{
+            display:block;
+            width:100%;
+            margin-top:10px;
+            padding:10px 12px;
+            border:1px solid var(--line);
+            border-radius:12px;
+            background:#fff;
+            color:#000;
+            font:inherit;
+            font-size:14px;
+            font-weight:600;
+            cursor:pointer;
+        }
+        #retry:active{ 
+            transform:scale(0.98); 
+        }
+        .opt:disabled{
+            cursor:default;
+        }
+        input:disabled{ 
+            opacity:1; 
+            cursor:default; 
+        }
     </style>
     </head>
     <body>
@@ -733,22 +757,23 @@
                 <p id="phtxt"></p>
                 <div id="qs"></div>
                 <div id="fb"><span id="fbm"></span><b id="score"></b></div>
+                <button id="retry" type="button">Try again</button>
             </aside>
         </div>
         <script>
             const $ = s => document.querySelector(s), lerp = (a,b,k) => a+(b-a)*k;
             const PH = [
-                {n: 'Interphase', c:'violet', t: 'Insert simple definition here or instruction.'},
-                {n: 'Prophase I', c:'violet', t: 'Insert simple definition here or instruction.'},
-                {n: 'Metaphase I', c:'violet', t: 'Insert simple definition here or instruction.'},
-                {n: 'Anaphase I', c:'violet', t: 'Insert simple definition here or instruction.'},
-                {n: 'Telophase I', c:'violet', t: 'Insert simple definition here or instruction.'},
-                {n: 'Cytokinesis', c:'violet', t: 'Insert simple definition here or instruction.'},
-                {n: 'Prophase II', c:'orange', t: 'Insert simple definition here or instruction.'},
-                {n: 'Metaphase II', c:'orange', t: 'Insert simple definition here or instruction.'},
-                {n: 'Anaphase II', c:'orange', t: 'Insert simple definition here or instruction.'},
-                {n: 'Telophase II', c:'orange', t: 'Insert simple definition here or instruction.'},
-                {n: 'Cytokinesis', c:'orange', t: 'Insert simple definition here or instruction.'},
+                {n: 'Interphase', c:'violet', t: ''},
+                {n: 'Prophase I', c:'violet', t: ''},
+                {n: 'Metaphase I', c:'violet', t: ''},
+                {n: 'Anaphase I', c:'violet', t: ''},
+                {n: 'Telophase I', c:'violet', t: ''},
+                {n: 'Cytokinesis', c:'violet', t: ''},
+                {n: 'Prophase II', c:'orange', t: ''},
+                {n: 'Metaphase II', c:'orange', t: ''},
+                {n: 'Anaphase II', c:'orange', t: ''},
+                {n: 'Telophase II', c:'orange', t: ''},
+                {n: 'Cytokinesis', c:'orange', t: ''},
             ];
 
             const BASE = [0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 8];
@@ -839,6 +864,7 @@
                     
                     const inp = d.querySelector('input'), st = ans[qk(i)];
                     if(st)inp.value = st.v;
+                    if(st && st.ok !== null && st.ok !== undefined) inp.disabled = true;
                     inp.addEventListener('input', () => {
                         inp.value = inp.value.replace(/\D/g, '');
                         grade(i, d, inp, false)
@@ -858,11 +884,14 @@
             }
 
             function grade(i, d, inp, force){
+                const old = ans[qk(i)];
+                if(old && old.ok !== null && old.ok !== undefined) return;
                 const a = String(Q[phase][i].a(N)), v = inp.value;
                 let ok = null;
                 if(v === a)ok = true;
                 else if(v !== '' && (force || v.length >= a.length)) ok = false;
                 ans[qk(i)] = {v, ok};
+                if(ok !== null) inp.disabled = true;
                 paint(i, d);
                 summary();
             }
@@ -887,6 +916,16 @@
             }
 
             $('#cnt').addEventListener('change', e => build ? cset(e.target.value) : setN(e.target.value));
+
+            $('#retry').addEventListener('click', () => {
+                if(build){
+                    Object.keys(mans).forEach(k => { if(k.split('|')[0] === String(phase)) delete mans[k]; });
+                    renderMCQ();
+                } else {
+                    Q[phase].forEach((q, i) => delete ans[qk(i)]);
+                    renderQuiz();
+                }
+            });
 
             function hold(id, d){
                 const b = $(id);
@@ -1830,7 +1869,7 @@
                     }
                 });
                 if(selKey && !els[selKey]) selKey = null;
-                $('#bcap').textContent = BD[phase];
+                $('#bcap').textContent = '';
                 board.classList.toggle('playing', bp);
                 for(let q = 0; q < 9; q++) board.classList.toggle('p' + q, q === bph());
                 board.classList.toggle('cl', cleaveOn());
@@ -2000,7 +2039,7 @@
                 drawCleave();
             }).observe(board);
 
-            $('#pal').innerHTML = ['cell', 'nuc', 'cen', 'chr'].map(t => '<div class="prow"><b><i class="ic ic-' + t + '"></i>' + LBL[t] + '</b><div class="pbtn"><button class="btn" data-t="' + t + '" data-d="-1">\u2212</button><span id="pc-' + t + '">0</span><button class="btn" data-t="' + t + '" data-d="1">+</button></div></div>').join('') + '<p class="phint">Instruction and Definitions.</p>';
+            $('#pal').innerHTML = ['cell', 'nuc', 'cen', 'chr'].map(t => '<div class="prow"><b><i class="ic ic-' + t + '"></i>' + LBL[t] + '</b><div class="pbtn"><button class="btn" data-t="' + t + '" data-d="-1">\u2212</button><span id="pc-' + t + '">0</span><button class="btn" data-t="' + t + '" data-d="1">+</button></div></div>').join('') + '<p class="phint">Note: Once the workspace is playing some functions or features inside are not functional. Pause the workspace first then edit your cell.</p>';
             $('#pal').addEventListener('click', e => {
                 const b = e.target.closest('button');
                 if(b) setB(b.dataset.t, cnt(b.dataset.t) + +b.dataset.d)
@@ -2105,7 +2144,7 @@
                function renderMCQ(){
                 $('#phname').textContent = PH[phase].n + ' (build)';
                 $('#phname').style.color = PH[phase].c;
-                $('#phtxt').textContent = BD[phase] + ' The questions use what you built in this page.';
+                $('#phtxt').textContent = '';
                 const box = $('#qs');
                 box.innerHTML = '';
                 let got = 0, tot = 0;
@@ -2126,7 +2165,9 @@
                             const b = document.createElement('button');
                             b.className = 'opt' + (t === pick ? ' pick' : '');
                             b.textContent = t;
+                            if(pick !== undefined) b.disabled = true;
                             b.onclick = () => {
+                                if(mans[key] !== undefined) return;
                                 mans[key] = t;
                                 renderMCQ();
                             };
@@ -2141,12 +2182,9 @@
                 });
                 const done = tot > 0 && got === tot;
                 $('#fb').className = done ? 'done' : '';
-                $('#fbm').textContent = tot === 0 ? 'Build this phase to unlock some questions' : done ? 'Phase complete! 🥳' : got + ' of ' + tot + 'correct.';
+                $('#fbm').textContent = tot === 0 ? 'Have fun building cells.' : done ? 'Phase complete! 🥳' : got + ' of ' + tot + ' correct.';
                 $('#score').textContent = got + ' / ' + tot;
             }
-
-
-
         </script>
     </body>
 </html>
