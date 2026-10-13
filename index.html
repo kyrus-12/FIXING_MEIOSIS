@@ -749,7 +749,7 @@
             ];
 
             const BASE = [0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 8];
-            const pbh = () => BASE(phase);
+            const pbh = () => BASE[phase];
 
             let build = false;
             const THREAD_LEN = 0.35;
@@ -768,7 +768,7 @@
             });
 
             function setPhase(p){
-                phase = (p = PH.length) % PH.length;
+                phase = (p + PH.length) % PH.length;
                 [...stepsEl.children].forEach((b, i) => b.classList.toggle('on', i === phase));
                 showFormula();
                 renderQuiz();
@@ -1560,7 +1560,7 @@
             const clamp01 = x => Math.max(0, Math.min(1, x)), ease = x => x * x * (3 - 2 * x), seg = (a, b, c) => ease(clamp01((a - b) / (c - b)));
 
             function cleaveOn(){
-                return build && bp && (phase === 3 || phase === 4 || phase === 7 || phase === 8) && cnt('cell') > 0;
+                return build && cnt('cell') > 0 && ((bp && (phase === 3 || phase === 4 || phase === 8 || phase === 9)) || phase === 5 || phase === 10);
             }
 
             function cleaveLoop(){
@@ -1619,7 +1619,7 @@
                     cph = phase;
                     ct0 = performance.now();
                 }
-                const pp = (x => x < 1 ? x : 2 - x), now = performmance.now() - ct0;
+                const pp = (x => x < 1 ? x : 2 - x), now = performance.now() - ct0;
                 const tt = (bp && (phase === 8 || phase === 9)) ? pp((now / 2400) % 2) : 1, ana = phase === 3 || phase === 8;
                 const cyto = phase === 5 || phase === 10, tc = bp ? clamp01(pp((now / 6000) % 2) / 0.6) : 1;
                 const q = cyto ? 0.5 + 0.5 * seg (tc, 0, 0.5) : ana ? 0.25 * seg(tt, 0.05, 0.6) : 0.25 + 0.25 * seg(tt, 0.05, 0.6);
@@ -2031,6 +2031,8 @@
             const qD = (q, f, need, ok, h) => ({q, f, need, ok, h});
 
             const MQ = [
+                [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
+                [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
                 [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
                 [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
                 [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
