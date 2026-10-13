@@ -978,8 +978,8 @@
                         v = sp(i, N, 0.18 * u, 0.1 * u);
                         m = xs(cx + v[0], cy + v[1], 0.3 * uu, i * 0.9 + 0.6, 1, 0, 0.03 * uu, Math.max(Math.max(1.6, 2.5 * sc), 0.016 * uu))
                     } else if(ph == 1){
-                        v = sp(p, P, 0.62 * u - 0.6 * L, 0.3 * u);
-                        const d = 0.1 * uu * s;
+                        v = sp(p, P, 0.75 * u - 0.6 * L, 0.4 * u);
+                        const d = 0.14 * uu * s;
                         m = xs(cx + v[0] + Math.cos(a) * d, cy + v[1] + Math.sin(a) * d, L, a, 0.25, 0, q, mW)
                     } else if(ph == 2){
                         m = xs(cx + s * 0.17 * uu, cy + r * g, L, 0, 0, 0, q, mW);
@@ -1622,7 +1622,7 @@
                     ct0 = performance.now();
                 }
                 const pp = (x => x < 1 ? x : 2 - x), now = performance.now() - ct0;
-                const tt = (bp && (phase === 8 || phase === 9)) ? pp((now / 2400) % 2) : 1, ana = phase === 3 || phase === 8;
+                const tt = (bp && (phase === 3 || phase === 4 || phase === 8 || phase === 9)) ? pp((now / 2400) % 2) : 1, ana = phase === 3 || phase === 8;
                 const cyto = phase === 5 || phase === 10, tc = bp ? clamp01(pp((now / 6000) % 2) / 0.6) : 1;
                 const q = cyto ? 0.5 + 0.5 * seg (tc, 0, 0.5) : ana ? 0.25 * seg(tt, 0.05, 0.6) : 0.25 + 0.25 * seg(tt, 0.05, 0.6);
                 const m = cyto ? seg(tc, 0.5, 0.85) : 0;
@@ -1770,7 +1770,7 @@
                     coil + p('M18.7 34.8Q16.85 39.6 14.925 44.4', x, 6, 'class="xo"') + dot(20, 30), X, X, X,
                     coil + p('M18.7 34.8Q16 39.6 14.925 44.4', x, 6) + dot(20, 30), X,
                     sd ? p('M10 10L28 30L10 50', b, 7) + p('M28 30L19 40', x, 7) + dot(28, 30) : p('M30, 10L12, 30L30, 50', a, 7) + p('M12, 30L21, 40', x, 7) + dot(12, 30),
-                    sd ? p('M20 4C30 14 10 20 20 30S30 46 20 56', b, 4) + p('M20 30C30 35 27.5 39 27.5 43', x, 4) + dot(20, 30) : p('M20 4C10 14 30 20 20 30S10 46 20 56', a, 4) + p('M20 30C15 25 12.5 39 12.5 43', x, 4) + dot(20, 30)                 
+                    sd ? p('M20 4C30 14 10 20 20 30S30 46 20 56', b, 4) + p('M20 30C25 35 27.5 39 27.5 43', x, 4) + dot(20, 30) : p('M20 4C10 14 30 20 20 30S10 46 20 56', a, 4) + p('M20 30C15 35 12.5 39 12.5 43', x, 4) + dot(20, 30)                 
                 ][ph];
             }
 
