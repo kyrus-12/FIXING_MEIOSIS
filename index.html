@@ -749,7 +749,7 @@
             ];
 
             const BASE = [0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 8];
-            const pbh = () => BASE[phase];
+            const bph = () => BASE[phase];
 
             let build = false;
             const THREAD_LEN = 0.35;
@@ -1454,10 +1454,12 @@
                 'Metaphase I:', 
                 'Anaphase I:', 
                 'Telophase I:',
+                'Cytokinesis:',
                 'Prophase II:',
                 'Metaphase II:', 
                 'Anaphase II:', 
-                'Telophase II:'
+                'Telophase II:',
+                'Cytokinesis:',
             ];
             let selKey = null, bp = false, fl = false, wl = false;
             const dims = (it, e) => {
