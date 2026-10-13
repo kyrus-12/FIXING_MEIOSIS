@@ -1020,7 +1020,8 @@
                         v = sp(i, N, 0.18 * u, 0.1 * u);
                         m = xs(cx + v[0], cy + v[1], 0.3 * uu, i * 0.9 + 0.6, 1, 0, 0.03 * uu, Math.max(Math.max(1.6, 2.5 * sc), 0.016 * uu))
                     } else if(ph == 1){
-                        v = sp(p, P, 0.75 * u - 0.6 * L, 0.4 * u);
+                        const rm = Math.max(0, 0.62 * u - 0.5 * L - 0.14 * uu - 0.02 * u);
+                        v = sp(p, P, rm, Math.min(0.4 * u, rm));
                         const d = 0.14 * uu * s;
                         m = xs(cx + v[0] + Math.cos(a) * d, cy + v[1] + Math.sin(a) * d, L, a, 0.25, 0, q, mW)
                     } else if(ph == 2){
@@ -1031,7 +1032,8 @@
                         v = sp(p, P, 0.2 * u, 0.14 * u);
                         m = xs(cx + s * dy + v[0], cy + v[1], L, a, 0.5, 0, q, mW)
                     } else if(ph == 5){
-                        v = sp(p, P, 0.3 * u, 0.18 * u);
+                        const rm = Math.max(0, 0.31 * u - 0.5 * L - 0.02 * u);
+                        v = sp(p, P, rm, Math.min(0.18 * u, rm));
                         m = xs(cx + v[0], cy + s * dy + v[1], L, a, 0.5, 0, q, mW)
                     } else if(ph == 6){
                         m = xs(cx, cy + s * dy + r * g2, L, 0, 0, 0, q, mW);
