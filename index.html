@@ -1674,7 +1674,7 @@
             const clamp01 = x => Math.max(0, Math.min(1, x)), ease = x => x * x * (3 - 2 * x), seg = (a, b, c) => ease(clamp01((a - b) / (c - b)));
 
             function cleaveOn(){
-                return build && cnt('cell') > 0 && ((bp && (phase === 3 || phase === 4 || phase === 5 || phase === 8 || phase === 9 || phase === 10)));
+                return build && cnt('cell') > 0 && (phase === 3 || phase === 4 || phase === 5 || phase === 8 || phase === 9 || phase === 10);
             }
 
             function cleaveLoop(){
