@@ -184,6 +184,7 @@
             border-radius:12px;
             padding:8px 10px;
             margin-bottom:8px;
+            background:#f4f4f5;
             transition:background 0.2s, border-color 0.2s;
         }
         .q.ok{
@@ -196,7 +197,7 @@
         }
         .qr{
             display:flex;
-            align-items:center;
+            align-items:left;
             gap:8px;
         }
         .qr label{
@@ -461,7 +462,7 @@
         }
         .opts{
             display:flex;
-            flex-wrap:wrap;
+            flex-direction:column;
             gap:6px;
             margin-top:6px;
         }
@@ -472,8 +473,10 @@
             border-radius:10px;
             padding:6px 10px;
             font:inherit;
-            font-size:13px;
+            font-size:15px;
+            text-align:center;
             cursor:pointer;
+            width:100%;
         }
         .opt.pick{
             border-color:#6366f1;
@@ -2031,13 +2034,38 @@
             };
 
             const qD = (q, f, need, ok, h) => ({q, f, need, ok, h});
-
+            const qS = (q, o, ok, h) => ({q, o, ok, h});
             const MQ = [
-                [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
-                [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
-                [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
-                [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
-                [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
+                [
+                    qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.'),
+                    qS('Add one cell wall, two chromosomes, two centrioles, and one nucleus. Arrange them properly and click the Play button below. What can you notice about the chromosomes during the Interphase of Meiosis compared to Mitosis?', ['Chromosomes are not yet visible, as they appear as chromatin in both.', 'Chromosomes are already visible and paired in both.', 'Chromosomes are doubled only in mitosis but not in meiosis.', 'Chromosomes are broken into pieces in meiosis but whole in mitosis.'], 'Correct! Because in Interphase, whether in mitosis or meiosis, the chromosomes are still in the form of thin, uncoiled chromatin strands, so they are not yet visible under the microscope.', 'Because in Interphase, whether in mitosis or meiosis, the chromosomes are still in the form of thin, uncoiled chromatin strands, so they are not yet visible under the microscope.'),
+                    qS('Do you think the chromosomes contained in gametes produced by Meiosis also undergo Interphase?', ['No, gametes do not undergo Interphase again after meiosis.', 'Yes, they always go through another Interphase before fertilization.', 'Yes, but only sperm cells undergo Interphase.', 'No, gametes skip Interphase and immediately divide again.'], 'Correct! Gametes produced by meiosis do not undergo another Interphase because they are already mature sex cells meant for fertilization, not further division.', 'Gametes produced by meiosis do not undergo another Interphase because they are already mature sex cells meant for fertilization, not further division.'),
+                    qS('What important event happens to the chromosomes during Interphase of Meiosis?', ['The chromosomes duplicate to prepare for division.', 'The chromosomes disappear completely.', 'The chromosomes immediately line up in pairs.', 'The chromosomes break into smaller pieces.'], 'Correct! During Interphase of Meiosis, the chromosomes duplicate so that each one has an identical copy, which is necessary for the later stages of cell division.', 'During Interphase of Meiosis, the chromosomes duplicate so that each one has an identical copy, which is necessary for the later stages of cell division.'),
+                ],
+                [
+                    qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.'),
+                    qS('Add one cell membrane, two chromosomes, two centrioles, and one nucleus. Arrange it properly and click the Play button below. What is the main difference in the chromosomes during Prophase I of Meiosis compared to Prophase in Mitosis?', ['In Prophase I of Meiosis, homologous chromosomes pair up and crossing over happens, while in Mitosis chromosomes do not pair or exchange parts.', 'In both, chromosomes pair up with their identical copies.', 'In Mitosis, chromosomes disappear completely, while in Meiosis they stay visible.', 'In Prophase I of Meiosis, chromosomes line up single file, while in Mitosis they line up in pairs.'], 'Correct! In Prophase I of Meiosis, homologous chromosomes pair and exchange genetic material (crossing over), which does not happen in Prophase of Mitosis.', 'In Prophase I of Meiosis, homologous chromosomes pair and exchange genetic material (crossing over), which does not happen in Prophase of Mitosis.'),
+                    qS('Why do homologous pairs of chromosomes appear in Prophase I of Meiosis?', ['Because homologous chromosomes pair up to allow crossing over.', 'Because chromosomes need to disappear before division.', 'Because chromosomes break into smaller fragments.', 'Because chromosomes line up in a single file immediately.'], 'Correct! Homologous pairs form in Prophase I so they can exchange genetic material through crossing over, which increases genetic variation in gametes.', 'Homologous pairs form in Prophase I so they can exchange genetic material through crossing over, which increases genetic variation in gametes.'),
+                    qS('What special process happens during Prophase I of Meiosis that does not happen in Mitosis?', ['Homologous chromosomes exchange genetic material through crossing over.', 'Chromosomes disappear completely.', 'Chromosomes line up a single file in the middle of the cell.', 'The nuclear membrane instantly reforms.'], 'Correct! Crossing over occurs in Prophase I, where homologous chromosomes swap pieces of DNA, creating genetic variation in gametes.', 'Crossing over occurs in Prophase I, where homologous chromosomes swap pieces of DNA, creating genetic variation in gametes.'),
+                ],
+                [
+                    qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.'),
+                    qS('Add two chromosomes, one cell wall, and two centrioles. Arrange it properly and click the Play button below. What is the main difference in the chromosomes during Metaphase I of Meiosis compared to Metaphase in Mitosis?', ['In Metaphase I, homologous chromosome pairs line up side by side, while in Mitosis individual chromosomes line up single file.', 'In Metaphase I, chromosomes disappear, while in Mitosis they stay visible.', 'In both, chromosomes line up randomly without any order.', 'In Mitosis, chromosomes pair up and cross over, while in Meiosis they do not.'], 'Correct! In Metaphase I of Meiosis, homologous pairs align together at the cell’s equator, while in Mitosis, single chromosomes line up individually.', 'In Metaphase I of Meiosis, homologous pairs align together at the cell’s equator, while in Mitosis, single chromosomes line up individually.'),
+                    qS('Why do homologous chromosome pairs line up together during Metaphase I of Meiosis?', ['To ensure each gamete gets one chromosome from each pair.', 'To prepare for crossing over.', 'To make the chromosomes disappear.', 'To allow the nuclear membrane to reform.'], 'Correct! Homologous pairs line up so that when they separate, each gamete receives one chromosome from each pair, ensuring genetic balance.', 'Homologous pairs line up so that when they separate, each gamete receives one chromosome from each pair, ensuring genetic balance.'),
+                    qS('How is the arrangement of chromosomes in Metaphase I of Meiosis important for genetic variation?', ['The random orientation of homologous pairs allows different combinations of chromosomes in gametes.', 'Chromosomes always line up in the same order, so gametes are identical.', 'Chromosomes break apart into fragments to create variation.', 'The nuclear membrane reforms to shuffle the chromosomes.'], 'Correct! The random way homologous pairs line up in Metaphase I leads to different chromosome combinations in gametes, increasing genetic diversity.', 'The random way homologous pairs line up in Metaphase I leads to different chromosome combinations in gametes, increasing genetic diversity.'),
+                ],
+                [
+                    qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.'),
+                    qS('Add two chromosomes, one cell wall, and two centrioles. Arrange it properly and click the Play button below. What is the main difference in the chromosomes during Anaphase I of Meiosis compared to Anaphase in Mitosis?', ['In Anaphase I, homologous chromosomes separate, while in Mitosis sister chromatids separate.', 'In Mitosis, homologous chromosomes pair up and move to opposite poles, while in Meiosis they do not.', 'In both, sister chromatids split apart at the same time.', 'In Anaphase I, chromosomes disappear completely, while in Mitosis they stay visible.'], 'Correct! In Anaphase I of Meiosis, homologous chromosome pairs are pulled apart, while in Anaphase of Mitosis, the sister chromatids of each chromosome separate.', 'In Anaphase I of Meiosis, homologous chromosome pairs are pulled apart, while in Anaphase of Mitosis, the sister chromatids of each chromosome separate.'),
+                    qS('Why does the way chromosomes separate in Anaphase I of Meiosis contribute to genetic diversity?', ['Because homologous chromosomes are pulled apart randomly, creating different combinations in gametes.', 'Because sister chromatids always split evenly, making gametes identical.', 'Because chromosomes disappear completely during Anaphase I.', 'Because the nuclear membrane reforms to shuffle the chromosomes.'], 'Correct! In Anaphase I of Meiosis, homologous chromosomes separate in a random way, which leads to unique combinations of chromosomes in gametes and increases genetic variation.', 'In Anaphase I of Meiosis, homologous chromosomes separate in a random way, which leads to unique combinations of chromosomes in gametes and increases genetic variation.'),
+                    qS('Why do sister chromatids stay together during Anaphase I of Meiosis?', ['Because only homologous chromosomes are separated at this stage.', 'Because the chromatids are not yet formed.', 'Because the nuclear membrane holds them tightly.', 'Because they disappear before they can separate.'], 'Correct! In Anaphase I, homologous chromosomes are pulled apart, but sister chromatids remain attached until Anaphase II.', 'In Anaphase I, homologous chromosomes are pulled apart, but sister chromatids remain attached until Anaphase II.'),
+                ],
+                [
+                    qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.'),
+                    qS('Add two chromosomes, one cell membrane, two centrioles, and two nuclei. Arrange it properly and click the Play button below. How are the chromosomes different in Telophase I of Meiosis compared to Telophase in Mitosis?', ['In Telophase I, each new nucleus has half the chromosome number, while in Mitosis each new nucleus has the full set.', 'In Mitosis, no nuclei form, while in Meiosis nuclei always form.', 'In both, chromosomes completely disappear and never return.', 'In Telophase I, sister chromatids separate, while in Mitosis homologous chromosomes separate.'], 'Correct! In Telophase I of Meiosis, cells become haploid with half the chromosome number, while in Telophase of Mitosis, cells remain diploid with the full set of chromosomes.', 'In Telophase I of Meiosis, cells become haploid with half the chromosome number, while in Telophase of Mitosis, cells remain diploid with the full set of chromosomes.'),
+                    qS('What happens to the shape of the cell during Telophase I of Meiosis?', ['The cell stretches and begins to elongate into two smaller cells.', 'The cell shrinks and disappears completely.', 'The cell instantly forms four daughter cells.', 'The cell becomes round and stops dividing.'], 'Correct! In Telophase I, the cell elongates and starts splitting into two daughter cells, each with half the chromosome number.', 'In Telophase I, the cell elongates and starts splitting into two daughter cells, each with half the chromosome number.'),
+                    qS('How do the chromosomes look inside the nuclei during Telophase I of Meiosis?', ['They remain condensed but are separated into two groups at opposite poles.', 'They disappear permanently and never return.', 'They line up again in the middle of the cell.', 'They break into fragments to form new chromosomes.'], 'Correct! In Telophase I, chromosomes stay condensed and are grouped at opposite ends of the cell, preparing for the next division.', 'In Telophase I, chromosomes stay condensed and are grouped at opposite ends of the cell, preparing for the next division.'),
+                ],
                 [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
                 [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
                 [qD('How many chromosomes are in this phase?', chrN, 'chromosomes', v => 'Yes! you built ' + v + 'chromosomes, so 2n = ' + v + '.', 'Count the chromosomeson your work.')],
