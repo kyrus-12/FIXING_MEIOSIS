@@ -779,7 +779,7 @@
             let build = false;
             const THREAD_LEN = 0.35;
             const HUE = [330, 200, 265, 155, 40];
-            let thr = 1, N = 10, P = 5, phase = 0, sel = -1, timer = null, W = 0, H = 0, R = 100, cur = null, t = 0, last = performance.now();
+            let thr = 1, thS = 1, th2 = 0, N = 10, P = 5, phase = 0, sel = -1, timer = null, W = 0, H = 0, R = 100, cur = null, t = 0, last = performance.now();
             const cvs = $('#c'), ctx = cvs.getContext('2d');
 
             const stepsEl = $('#steps');
@@ -1193,8 +1193,9 @@
                 return Math.max(1.5, 0.02 * R * Math.min(1, 2 / Math.sqrt(P)));
             }
 
-            function threadPts(c, i){
-                const u = R, [dx, dy] = drift(i, 0), k = 0.35 + 0.65 * thr, TP = 6.2832;
+            function threadPts(c, i, kc = 0){
+                const i = kc ? i0 + 23 : i0;
+                const u = R, [dx, dy] = drift(i0, kc), k = (0.35 + 0.65 * thr) * thS, TP = 6.2832;
                 const f1 = 2.3 + 0.4 * ((i * 7) % 3), f2 = 5.4 + 0.4 * ((i * 5) % 4), f3 = 9.2 + 0.5 * ((i * 3) % 5);
                 const g1 = 3.3 + 0.4 * ((i * 5) % 3), g2 = 6.4 + 0.4 * ((i * 3) % 4), g3 = 10.2 + 0.5 * ((i * 7) % 4);
                 const A1 = 0.19 * u * k, A2 = 0.11 * u * k, A3 = 0.03 * u *k;
@@ -1210,11 +1211,11 @@
                 return pts;
             }
 
-            function thread(c, i, hl, dim){
+            function thread(c, i, hl, dim, kc = 0, am = 1){
                 const col = 'hsl(' + hue(i >> 1) +' 80% ' + (i & 1 ? 44 : 60) + '%)';
-                const pts = threadPts(c, i), lw = threadLW();
+                const pts = threadPts(c, i, kc), lw = threadLW();
                 ctx.save();
-                ctx.globalAlpha = thr * (dim ? 0.55 : 0.95);
+                ctx.globalAlpha = thr * am * (dim ? 0.55 : 0.95);
                 ctx.beginPath();
                 pts.forEach((pt, n) => n ? ctx.lineTo(pt[0], pt[1]) : ctx.moveTo(pt[0], pt[1]));
                 ctx.lineCap = ctx.lineJoin = 'round';
@@ -1231,7 +1232,7 @@
                 ctx.stroke();
                 const cyc = ((t + i * 0.7) % 10) / 10, rp = clamp01((cyc - 0.1) / 0.55), fd = cyc > 0.9 ? (1 - cyc) / 0.1 : 1;
                 if(rp > 0){
-                    const o = 0.02 * R, n2 = Math.max(2, Math.round(rp * pts.length));ctx.globalAlpha = thr * (dim ? 0.55 : 0.95) * fd;
+                    const o = 0.02 * R, n2 = Math.max(2, Math.round(rp * pts.length));ctx.globalAlpha = thr * am * (dim ? 0.55 : 0.95) * fd;
                     ctx.beginPath();
                     pts.slice(0, n2).forEach((pt, s) => s ? ctx.lineTo(pt[0] + o, pt[1] + o) : ctx.moveTo(pt[0] + o, pt[1] + o));
                     ctx.strokeStyle = 'hsl(' + hue(i >> 1) + ' 85% 70%)';
@@ -1340,10 +1341,14 @@
 
                 const order = sel >= 0 ? [...S.ch.keys()].filter(i => i !== sel).concat(sel) : [...S.ch.keys()];
                 order.forEach(i => {
-                    if(thr > 0.02) thread(S.ch[i][0], i, i === sel, sel >= 0 && i !== sel);
+                    if(thr > 0.02){
+                        thread(S.ch[i][0], i, i === sel, sel >= 0 && i !== sel);
+                        if(th2 > 0.02) thread(S.ch[i][1], i, i === sel, sel >= 0 && i !== sel, 1, th2);
+                    }
                     S.ch[i].forEach((c, k) => chromatid(c, i, k, i === sel, sel >= 0 && i !== sel))
                 });
 
+                
                 if(S.chi > 0.02){
                     ctx.save();
                     ctx.globalAlpha = S.chi;
@@ -1364,12 +1369,12 @@
                 }
                 if(sel >= 0){
                     const pr = S.ch[sel], sep = Math.hypot(pr[0].x - pr[1].x, pr[0].y - pr[1].y) > 0.3 * u;
-                    (sep ? pr : [pr[0]]).forEach(c0 => {
+                    (sep ? pr : [pr[0]]).forEach(c0, kc => {
                         let c = c0;
                         const [dx, dy] = drift(sel, 0);
                         let r = Math.max(0.22 * u * scl(), 14) + Math.sin(t * 4) * 3;
                         if(thr > 0.5){
-                            const tp = threadPts(c0, sel), mx = tp.reduce((a, q) => a + q[0], 0) / tp.length, my = tp.reduce((a, q) => a + q[1], 0) / tp.length;
+                            const tp = threadPts(c0, sel, kc), mx = tp.reduce((a, q) => a + q[0], 0) / tp.length, my = tp.reduce((a, q) => a + q[1], 0) / tp.length;
                             c = {x : mx - dx, y : my - dy};
                             r = Math.max(...tp.map(q => Math.hypot(q[0] - mx, q[1] - my))) + 10 + Math.sin(t * 4) * 2;
                         }
@@ -1391,7 +1396,9 @@
                 const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
                 if(W){
                     const T = target(bph(), phase === 5 || phase === 10), f = 1 - Math.exp(-dt * 3.5);
-                    thr = lerp(thr, phase === 0 ? 1 : 0, f);
+                    thr = lerp(thr, (phase === 0 ? phase === 10) ? 1 : 0, f);
+                    thS = lerp(thS, bph() >= 8 ? 0.4 : 1, f);
+                    th2 = lerp(th2, bph() >= 8 ? 1 : 0, f);
                     if(!cur)cur = JSON.parse(JSON.stringify(T));
                     else {
                         while(cur.ch.length > N)cur.ch.pop(); 
@@ -1420,14 +1427,17 @@
                 if(thr > 0.5){
                     let bd = Math.max(9, threadLW() * 3);
                     cur.ch.forEach((pr, i) => {
-                        const pts = threadPts(pr[0], i);
-                        for(let n = 0; n < pts.length - 1; n++){
-                            const d = segDist(mx, my, pts[n], pts[n + 1]);
-                            if(d < bd){
-                                bd = d;
-                                best = i;
+                        pr.forEach((c, kc) => {
+                            if(kc && th2 < 0.5) return;
+                            const pts = threadPts(c, i, kc);
+                            for(let n = 0; n < pts.length - 1; n++){
+                                const d = segDist(mx, my, pts[n], pts[n + 1]);
+                                if(d < bd){
+                                    bd = d;
+                                    best = i;
+                                }
                             }
-                        }
+                            )};
                     });
                     return best;
                 } 
