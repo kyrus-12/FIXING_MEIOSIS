@@ -1521,7 +1521,7 @@
                    else Lp.push({t, x : c.x + sd * R * (ph === 8 ? 0.55 : 0.8), y : c.y + st});
                 }
                 else {
-                    const pair = ph <=  4, it = phase === 10 ? 54 : 34, m = pair ? j >> 1 : j, per = Math.max(1, Math.floor(R * 1.5 / pit)), col = Math.floor(m / per), row = m % per;
+                    const pair = ph <=  4, pit = phase === 10 ? 54 : 34, m = pair ? j >> 1 : j, per = Math.max(1, Math.floor(R * 1.5 / pit)), col = Math.floor(m / per), row = m % per;
                     const sx = (col % 2 ? 1 : -1) * Math.ceil(col / 2) * (pair ? 64 : (phase === 10 ? 54 : 26)), yy = c.y + (row - (per - 1) / 2) * pit;
                     if(ph <= 1){
                         const [a, b] = sp(m, 0.6), h = ph ? 10 : 42;
@@ -1867,7 +1867,7 @@
 
             function redoThreads(e){
                 Object.values(els).filter(x => x.k === e.k && x.it && x.it.t === 'chr').forEach(x => {
-                    x.querySelector('svg').innerHTML = chrSvg(hue(e.k >> 1), 0, x sd || 0, x.k, phase === 10)
+                    x.querySelector('svg').innerHTML = chrSvg(hue(e.k >> 1), 0, x.sd || 0, x.k, phase === 10)
                 })
             }
 
@@ -1933,7 +1933,7 @@
                         e.sd = it.side || 0;
                         e.tm = tm;
                         e.one = one;
-                        const pm = tm ? 0 : bph(), 52 = one ? 52 : 80;
+                        const pm = tm ? 0 : bph(), sz = one ? 52 : 80;
                         e.querySelector('.mv').className = 'mv ph' + pm;
                         const sv = e.querySelector('svg');
                         sv.setAttribute('class', 'grip ph' + pm);
@@ -1966,7 +1966,7 @@
                     fl = true;
                     requestAnimationFrame(fibLoop);
                 }
-                if(bp && !wl && (phase === 0 || phase 10)){
+                if(bp && !wl && (phase === 0 || phase === 10)){
                     wl = true;
                     requestAnimationFrame(wormLoop)
                 }
