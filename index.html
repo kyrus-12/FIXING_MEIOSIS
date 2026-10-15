@@ -1521,8 +1521,8 @@
                    else Lp.push({t, x : c.x + sd * R * (ph === 8 ? 0.55 : 0.8), y : c.y + st});
                 }
                 else {
-                    const pair = ph <=  4, m = pair ? j >> 1 : j, per = Math.max(1, Math.floor(R * 1.5 / 34)), col = Math.floor(m / per), row = m % per;
-                    const sx = (col % 2 ? 1 : -1) * Math.ceil(col / 2) * (pair ? 64 : 26), yy = c.y + (row - (per - 1) / 2) * 34;
+                    const pair = ph <=  4, it = phase === 10 ? 54 : 34, m = pair ? j >> 1 : j, per = Math.max(1, Math.floor(R * 1.5 / pit)), col = Math.floor(m / per), row = m % per;
+                    const sx = (col % 2 ? 1 : -1) * Math.ceil(col / 2) * (pair ? 64 : (phase === 10 ? 54 : 26)), yy = c.y + (row - (per - 1) / 2) * pit;
                     if(ph <= 1){
                         const [a, b] = sp(m, 0.6), h = ph ? 10 : 42;
                         Lp.push({t, x : c.x + a - h, y : c.y + b}, {t, x : c.x + a + h, y : c.y + b});
@@ -1660,7 +1660,7 @@
             }
 
              function wormLoop(){
-                if(build && bp && phase === 0){
+                if(build && bp && (phase === 0 || phase === 10)){
                     const tt = performance.now() / 1000;
                     Object.values(els).forEach(e => {
                         if(e.it && e.it.t === 'chr') drawThreads(e, tt)
@@ -1782,7 +1782,7 @@
                 tb.hidden = false;
                 $('#tbn').hidden = !chr;
                 $('#tbrl').hidden = $('#tbrr').hidden = !chr;
-                $('#tbtg').hidden = $('#tbst').hidden = !(chr && phase === 0);
+                $('#tbtg').hidden = $('#tbst').hidden = !(chr && (phase === 0 || phase === 10));                
                 $('#tbl').textContent = chr ? '' : LBL[it.t];
                 if(chr && document.activeElement !== $('#tbn')) $('#tbn').value = names[e.k] || '';
                 $('#tbz').textContent = Math.round(clampS(it, e) * 100) + '%';
@@ -1866,10 +1866,12 @@
             }
 
             function redoThreads(e){
-                e.querySelector('svg').innerHTML = chrSvg(hue(e.k >> 1), 0, 0, e.k)
+                Object.values(els).filter(x => x.k === e.k && x.it && x.it.t === 'chr').forEach(x => {
+                    x.querySelector('svg').innerHTML = chrSvg(hue(e.k >> 1), 0, x sd || 0, x.k, phase === 10)
+                })
             }
 
-             function chrSvg(h, ph, sd, k){
+                function chrSvg(h, ph, sd, k, one){
                 const L0 = (k & 1) ? 44 : 60, Lx = (k & 1) ? 60 : 40;
                 const a = 'hsl(' + h + ' 80% '+L0+ '%)', b = 'hsl(' + h + ' 80% '+(L0+10)+ '%)', x = 'hsl(' + h + ' 85% '+((k & 1) ? 72 : 34) + '%)';
                 const p = (d, c, w, x) => '<path ' + (x || '') + ' d="' + d + '" stroke="' + c + '" stroke-width="' + w + '" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
@@ -1883,6 +1885,10 @@
                             const en = i === 0 || i === sh[st].length - 1;
                             return '<circle class="hd" data-st="' + st + '" data-i="' + i + '" cx="' + q[0] +'" cy="' + q[1] + '" r="' + (en ? 5.5 : 4) + '" fill="' + (en ? c : '#fff') + '" stroke="' + dk + '" stroke-width="1.5"/>'
                         }).join('');
+                        if(one){
+                            const st = sd ? 'b' : 'a', cc = sd ? b : a;
+                            return p(smoothD(sh[st]), cc, 2.4, 'data-st="' + st + '"') + hs(st, cc);
+                        }
                         return p(smoothD(sh.a), a, 2.4, 'data-st="a"') + p(smoothD(sh.b), b, 2.4, 'class="rep"  pathLength="100" data-st="b"') + hs('b', b) + hs('a', a);
                     })(),
                     coil + p('M18.7 34.8Q16.85 39.6 14.925 44.4', x, 6, 'class="xo"') + dot(20, 30), X, X, X,
@@ -1921,20 +1927,23 @@
                         }
                         requestAnimationFrame(() => e.style.opacity = 1);
                     }
-                    e.it = it;
-                    if(it.t === 'chr' && (e.ph !== bph() || e.sd !== (it.side || 0))){
+                    const tm = phase === 0 || phase === 10, one = phase === 10;
+                    if(it.t === 'chr' && (e.ph !== bph() || e.sd !== (it.side || 0) || e.tm !== tm || e.one !== one)){
                         e.ph = bph();
                         e.sd = it.side || 0;
-                        e.querySelector('.mv').className = 'mv ph' + bph();
+                        e.tm = tm;
+                        e.one = one;
+                        const pm = tm ? 0 : bph(), 52 = one ? 52 : 80;
+                        e.querySelector('.mv').className = 'mv ph' + pm;
                         const sv = e.querySelector('svg');
-                        sv.setAttribute('class', 'grip ph' + bph());
-                        sv.setAttribute('width', phase ? 40 : 80);
-                        sv.setAttribute('height', phase ? 60 : 80);
-                        sv.setAttribute('viewBox', phase ? '0 0 40 60' : '0 0 80 80');
-                        sv.innerHTML = chrSvg(hue(k >> 1), bph(), e.sd, k);
+                        sv.setAttribute('class', 'grip ph' + pm);
+                        sv.setAttribute('width', tm ? sz : 40);
+                        sv.setAttribute('height', tm ? sz : 60);
+                        sv.setAttribute('viewBox', tm ? '0 0 80 80' : '0 0 40 60');
+                        sv.innerHTML = chrSvg(hue(k >> 1), pm, e.sd, k, one);
                     }
                     place(it, e);
-                    if(it.t === 'chr' && phase === 0 && !bp) drawThreads(e, 0);
+                    if(it.t === 'chr' && tm && !bp) drawThreads(e, 0);
                 });
                 Object.keys(els).forEach(key => {
                     if(!seen[key]){
@@ -1957,7 +1966,7 @@
                     fl = true;
                     requestAnimationFrame(fibLoop);
                 }
-                if(bp && !wl && phase === 0){
+                if(bp && !wl && (phase === 0 || phase 10)){
                     wl = true;
                     requestAnimationFrame(wormLoop)
                 }
@@ -2052,7 +2061,7 @@
             
             $('#tbtg').onclick = () => {
                 const e = els[selKey];
-                if(e && e.it && e.it.t === 'chr' && phase === 0){
+                if(e && e.it && e.it.t === 'chr' && (phase === 0 || phase === 10)){
                     shapes[e.k] = initShape(Math.floor(Math.random() * 1e6) + 1);
                     redoThreads(e)
                 }
@@ -2060,12 +2069,11 @@
 
             $('#tbst').onclick = () => {
                 const e = els[selKey];
-                if(e && e.it && e.it.t === 'chr' && phase === 0){
+                if(e && e.it && e.it.t === 'chr' && (phase === 0 || phase === 10)){
                     shapes[e.k] = straightShape();
                     redoThreads(e)
                 }
             };
-
             board.addEventListener('pointerdown', ev => {
                 if(ev.target === board || ev.target === world){
                     selKey = null;
