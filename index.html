@@ -1193,7 +1193,7 @@
                 return Math.max(1.5, 0.02 * R * Math.min(1, 2 / Math.sqrt(P)));
             }
 
-            function threadPts(c, i, kc = 0){
+            function threadPts(c, i0, kc = 0){
                 const i = kc ? i0 + 23 : i0;
                 const u = R, [dx, dy] = drift(i0, kc), k = (0.35 + 0.65 * thr) * thS, TP = 6.2832;
                 const f1 = 2.3 + 0.4 * ((i * 7) % 3), f2 = 5.4 + 0.4 * ((i * 5) % 4), f3 = 9.2 + 0.5 * ((i * 3) % 5);
@@ -1369,7 +1369,7 @@
                 }
                 if(sel >= 0){
                     const pr = S.ch[sel], sep = Math.hypot(pr[0].x - pr[1].x, pr[0].y - pr[1].y) > 0.3 * u;
-                    (sep ? pr : [pr[0]]).forEach(c0, kc => {
+                    (sep ? pr : [pr[0]]).forEach((c0, kc) => {
                         let c = c0;
                         const [dx, dy] = drift(sel, 0);
                         let r = Math.max(0.22 * u * scl(), 14) + Math.sin(t * 4) * 3;
@@ -1396,7 +1396,7 @@
                 const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
                 if(W){
                     const T = target(bph(), phase === 5 || phase === 10), f = 1 - Math.exp(-dt * 3.5);
-                    thr = lerp(thr, (phase === 0 ? phase === 10) ? 1 : 0, f);
+                    thr = lerp(thr, (phase === 0 || phase === 10) ? 1 : 0, f);
                     thS = lerp(thS, bph() >= 8 ? 0.4 : 1, f);
                     th2 = lerp(th2, bph() >= 8 ? 1 : 0, f);
                     if(!cur)cur = JSON.parse(JSON.stringify(T));
@@ -1437,7 +1437,7 @@
                                     best = i;
                                 }
                             }
-                            )};
+                        });
                     });
                     return best;
                 } 
