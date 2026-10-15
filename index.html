@@ -557,6 +557,11 @@
         .board.playing.p8 .el.nuc{
             animation:form 2.4s ease-in-out infinite alternate;
         }
+        .board.playing.cyto .el.nuc{
+            animation:none;
+            opacity:1;
+            filter:none;
+        }
         @keyframes dissolve{
             from{opacity:1} to {opacity:0.15}
         }
@@ -1956,6 +1961,7 @@
                 });
                 if(selKey && !els[selKey]) selKey = null;
                 $('#bcap').textContent = '';
+                board.classList.toggle('cyto', phase === 5 || phase === 10);
                 board.classList.toggle('playing', bp);
                 for(let q = 0; q < 9; q++) board.classList.toggle('p' + q, q === bph());
                 board.classList.toggle('cl', cleaveOn());
