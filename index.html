@@ -1867,7 +1867,7 @@
 
             function redoThreads(e){
                 Object.values(els).filter(x => x.k === e.k && x.it && x.it.t === 'chr').forEach(x => {
-                    x.querySelector('svg').innerHTML = chrSvg(hue(e.k >> 1), 0, x.sd || 0, x.k, phase === 10)
+                    x.querySelector('svg').innerHTML = chrSvg(hue(x.k >> 1), 0, x.sd || 0, x.k, phase === 10)
                 })
             }
 
@@ -1927,6 +1927,7 @@
                         }
                         requestAnimationFrame(() => e.style.opacity = 1);
                     }
+                    e.it= it;
                     const tm = phase === 0 || phase === 10, one = phase === 10;
                     if(it.t === 'chr' && (e.ph !== bph() || e.sd !== (it.side || 0) || e.tm !== tm || e.one !== one)){
                         e.ph = bph();
