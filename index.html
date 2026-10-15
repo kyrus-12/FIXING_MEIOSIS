@@ -877,7 +877,7 @@
                     mq('How many chromosomes are in EACH cell?', N => N / 2, N => 'Yes! Each cell has ' + (N / 2) + ' chromosomes.', 'Each cell has half of the 2n number.'),
                     mq('How many sister chromatids are in EACH cell?', N => N, N => 'Yes! ' + (N / 2) + ' x 2 = ' + N + ' sister chromatids in each cell.', 'Each chromosome has 2 sister chromatids. Multiply the chromosomes in one cell by 2.'),
                     mq('How many chromosomes are in BOTH cells combined?', N => N, N => 'Yes! ' + (N / 2) + ' + ' + (N / 2) + ' = ' + N + ' chromosomes.', 'Add the chromosomes in the 2 cells together. The total equals the 2n number.'),
-                    mq('How many times is the DNA copied between Meiosis I and Meiosis II?', N => 0, N => 'Yes! 0. The DNA is not copied again.', 'DNA is copied only once, before Meiosis I.'),
+                    mq('How many times is the DNA copied between Meiosis I and Meiosis II?', N => 0, N => 'Yes! 0. The DNA is not copied again. Remember that DNA duplication occurs during interphase.', 'DNA is copied only once, before Meiosis I.'),
                     mq('How many centrosomes move to opposite poles in EACH cell?', N => 2, N => 'Yes! 2 centrosomes, one for each pole.', 'The spindle needs 2 poles, so 2 centrosomes move apart.')
                 ],
                 [
@@ -891,7 +891,6 @@
                     mq('How many chromosomes are in EACH cell AFTER the sister chromatids separate?', N => N, N => 'Yes! ' + (N / 2) + ' x 2 = ' + N + ' chromosomes.', 'Each sister chromatid is now its own chromosome, so the number doubles. Multiply the chromosomes in one cell by 2.'),
                     mq('How many chromosomes are in BOTH cells combined AFTER the sister chromatids separate?', N => N * 2, N => 'Yes! ' + N + ' + ' + N + ' = ' + (N * 2) + ' chromosomes.', 'Add the chromosomes in the 2 cells together. Multiply the 2n number by 2.'),
                     mq('How many chromosomes are pulled toward EACH pole in one cell?', N => N / 2, N => 'Yes! Each pole receives ' + (N / 2) + ' chromosomes.', 'The chromosomes split evenly between 2 poles. Divide the chromosomes in the cell by 2.'),
-                    mq('How many centromeres split in EACH cell?', N => N / 2, N => 'Yes! Each of the ' + (N / 2) + ' chromosomes has 1 centromere that splits.', 'Each chromosome has 1 centromere, and every one of them splits.'),
                     mq('How many chromatids does each chromosome have AFTER separation?', N => 1, N => 'Yes! Each chromosome is now a single chromatid.', 'After the sister chromatids separate, each one is a chromosome with only 1 chromatid.')
                 ],
                 [
